@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/user")
@@ -14,12 +15,13 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/{phoneNumber}")
-    public void registerNewUser(@PathVariable Long phoneNumber){
-        userService.registerNewUser(phoneNumber);
+    public String registerNewUser(@PathVariable Long phoneNumber){
+        return userService.registerNewUser(phoneNumber);
     }
 
+    //FOR INTERNAL USE
     @GetMapping("")
-    public List<User> getAllUsers(){
+    public Set<User> getAllUsers(){
         return userService.getAllUsers();
     }
 
