@@ -25,6 +25,8 @@ public class MessageService {
     private GroupRepository groupRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private SenderService senderService;
 
     public String postMessage(PostMessageVO postMessageVO){
         Optional<User> optionalUser = userRepository.findById(postMessageVO.getFrom());
@@ -43,6 +45,7 @@ public class MessageService {
 
                 Message message = new Message(user,group, postMessageVO.getContent());
 
+                senderService.send(group.getUniqueId(),postMessageVO.getContent());
                 messageRepository.saveAndFlush(message);
                 String answer = "Mesaje posteado correctamente en el grupo "+group.getGroupName()+".";
                 log.error(answer);

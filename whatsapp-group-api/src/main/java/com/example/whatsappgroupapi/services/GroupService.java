@@ -25,9 +25,20 @@ public class GroupService {
     @Autowired
     private UserRepository userRepository;
 
-    public String createNewGroup(String groupName , GroupVO groupVO){
-        Optional<User> optionalFrom = userRepository.findById(groupVO.getFrom());
+    @Autowired
+    private SenderService senderService;
 
+    public String createNewGroup(String groupName , GroupVO groupVO){
+
+        //Checking if a group with this name already exist.
+        if(groupRepository.findByGroupName(groupName).isPresent()){
+            String answer = "Ya existe un grupo con ese nombre.";
+            log.error(answer);
+            return answer;
+        }
+
+        //Check admin user is registered
+        Optional<User> optionalFrom = userRepository.findById(groupVO.getFrom());
         if(optionalFrom.isEmpty()){
             String answer = "Quien inicio el pedido, no es usuario registrado de Whatsapp";
             log.error(answer);
@@ -51,10 +62,14 @@ public class GroupService {
         registeredUsers.add(admin);
 
 
-        //Saving Group
+        //Saving Group.
         Group group = new Group(registeredAdminUsers,registeredUsers,groupName);
         groupRepository.saveAndFlush(group);
-        String answer = "El grupo "+group.getGroupName()+" ha sido creado con exito.";
+
+        //Creating a new Binding Key to this Group.
+        senderService.createNewBinding(group.getUniqueId());
+
+        String answer = "El grupo con el nombre: "+group.getGroupName()+" y el UUID: "+group.getUniqueId()+" ha sido creado con exito.";
         log.info(answer);
         return answer;
     }

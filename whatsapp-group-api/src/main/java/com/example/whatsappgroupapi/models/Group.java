@@ -9,6 +9,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -16,6 +17,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Group extends BaseEntity{
+
+    private String uniqueId;
 
     private LocalDateTime dateStarted;
 
@@ -28,11 +31,11 @@ public class Group extends BaseEntity{
     private Set<User> participants;
 
     public Group(Set<User> admins, Set<User> participants, String groupName){
+        this.uniqueId = UUID.randomUUID().toString();
         this.dateStarted = LocalDateTime.now();
         this.admins = admins;
         this.participants = participants;
         this.groupName = groupName;
-
     }
 
 }

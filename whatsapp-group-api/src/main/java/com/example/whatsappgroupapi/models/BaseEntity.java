@@ -1,6 +1,5 @@
 package com.example.whatsappgroupapi.models;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
