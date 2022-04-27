@@ -1,7 +1,6 @@
 # Coding Assesment  - XCaleConsulting
 ## Miguel Coronel
 
----
 
 ## Pre-requisitos:
 ###	-IntelliJ o otro IDE similar.
@@ -9,7 +8,6 @@
 ###	-Bash
 ###	-Postman (Desktop agent instalado)
 
----
 
 ## Consideraciones:
 
@@ -26,13 +24,12 @@
 ### Mensajes:
 #### - Solo pueden enviar mensajes a un grupo los usuarios registrados y que forman parte de dicho grupo.
 
----
 
 ## Referencias / Archivos utiles (.\Miguel-Coronel\Refs):
 
 ### Diagrama UML (UML Diagram.jpg)
+### Postman Template file (whatsapp-api.postman_collection.json)
 
----
 
 ## Para correr el Proyecto
 
@@ -55,3 +52,6 @@
 ####		`mvn clean spring-boot:run`
 
 ### 6. Despues de iniciado el proyecto, debemos ir a Postman para iniciar las interacciones con la API.
+
+### 7. Aca podemos importar el Postman template file, donde tendremos ya configuradas todas las llamadas que
+###		necesitamos hacer a la API
