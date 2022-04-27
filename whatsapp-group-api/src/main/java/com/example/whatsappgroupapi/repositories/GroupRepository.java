@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GroupRepository extends JpaRepository<Group , Long> {
 
-//    @Query(nativeQuery = true, value = "SELECT * FROM group_table WHERE :participantId = ANY(participant_ids)")
-//    List<Group> findAllforParticipant(@Param("participantId")Long participantId);
+    Optional<Group> findByGroupName(String groupName);
 }

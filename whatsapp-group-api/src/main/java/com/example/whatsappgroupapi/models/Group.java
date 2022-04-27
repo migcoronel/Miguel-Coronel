@@ -1,16 +1,14 @@
 package com.example.whatsappgroupapi.models;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -21,15 +19,19 @@ public class Group extends BaseEntity{
 
     private LocalDateTime dateStarted;
 
-    private String name;
+    private String groupName;
 
     @ManyToMany
-    private List<User> participants;
+    private Set<User> admins;
 
-    public Group(List<User> participants, String name){
+    @ManyToMany
+    private Set<User> participants;
+
+    public Group(Set<User> admins, Set<User> participants, String groupName){
         this.dateStarted = LocalDateTime.now();
+        this.admins = admins;
         this.participants = participants;
-        this.name = name;
+        this.groupName = groupName;
 
     }
 

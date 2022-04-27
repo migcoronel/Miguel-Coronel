@@ -4,14 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.catalina.LifecycleState;
+
+import java.util.List;
+import java.util.Set;
 
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostMessageVO {
+public class GroupVO {
     private Long from;
-    private String groupId;
-    private String content;
-
+    private Set<Long> admins;
+    private Set<Long> participants;
 }

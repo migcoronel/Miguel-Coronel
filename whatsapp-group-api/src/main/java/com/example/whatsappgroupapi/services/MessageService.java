@@ -2,10 +2,12 @@ package com.example.whatsappgroupapi.services;
 
 import com.example.whatsappgroupapi.models.Group;
 import com.example.whatsappgroupapi.models.Message;
+import com.example.whatsappgroupapi.models.PostMessageVO;
 import com.example.whatsappgroupapi.models.User;
 import com.example.whatsappgroupapi.repositories.GroupRepository;
 import com.example.whatsappgroupapi.repositories.MessageRepository;
 import com.example.whatsappgroupapi.repositories.UserRepository;
+import com.example.whatsappgroupapi.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,26 +26,53 @@ public class MessageService {
     @Autowired
     private UserRepository userRepository;
 
-    public void sendMessage(Long fromId, Long groupId , String content){
-        Optional<User> optionalUser = userRepository.findById(fromId);
-        Optional<Group> optionalGroup = groupRepository.findById(groupId);
+    public String postMessage(PostMessageVO postMessageVO){
+        Optional<User> optionalUser = userRepository.findById(postMessageVO.getFrom());
 
-        if(optionalUser.isPresent() && optionalGroup.isPresent()){
-            User user = optionalUser.get();
-            Group group = optionalGroup.get();
-
-            Message message = new Message(user,group,content);
-            messageRepository.saveAndFlush(message);
-            log.error("Mesaje posteado correctamente.");
+        Group group;
+        if(Utils.isLong(postMessageVO.getGroupId())){
+            group = groupRepository.findById(Long.valueOf(postMessageVO.getGroupId())).orElse(null);
         }else {
-            log.error("El usuario o el grupo al que intentas enviar el mensaje no existe.");
+            group = groupRepository.findByGroupName(postMessageVO.getGroupId()).orElse(null);
+        }
+
+        if(optionalUser.isPresent() && group != null){
+            User user = optionalUser.get();
+
+            if(group.getParticipants().contains(user)){
+
+                Message message = new Message(user,group, postMessageVO.getContent());
+
+                messageRepository.saveAndFlush(message);
+                String answer = "Mesaje posteado correctamente en el grupo "+group.getGroupName()+".";
+                log.error(answer);
+                return answer;
+
+            }else {
+                String answer = "El numero de telefono "+user.getPhoneNumber()+" no es un participante del grupo "+group.getGroupName()+".";
+                log.error(answer);
+                return answer;
+            }
+        }else {
+            String answer = "El usuario o el grupo al que intentas enviar el mensaje no existe.";
+            log.error(answer);
+            return answer;
         }
     }
 
-    public List<Message> getAllMessageForGroupId(Long groupId){
-        Optional<Group> optionalGroup = groupRepository.findById(groupId);
-        if(optionalGroup.isPresent()){
-            List<Message> messageList = messageRepository.findAll().stream().filter(message -> message.getGroup().equals(optionalGroup.get())).collect(Collectors.toList());
+    public List<Message> getAllMessageForGroupId(String groupId){
+        Group group;
+        if(Utils.isLong(groupId)){
+            group = groupRepository.findById(Long.valueOf(groupId)).orElse(null);
+        }else {
+            group = groupRepository.findByGroupName(groupId).orElse(null);
+        }
+
+        if(group != null){
+            List<Message> messageList = messageRepository.findAll().stream()
+                    .filter(message -> message.getGroup().equals(group))
+                    .collect(Collectors.toList());
+
             if(messageList.size()>0){
                 log.info("Se encontraron "+messageList.size()+" mensajes para este grupo.");
                 return messageList;
