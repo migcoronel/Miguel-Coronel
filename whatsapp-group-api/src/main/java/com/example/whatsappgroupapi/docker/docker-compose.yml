@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  db:
+    image: "postgres:11.4"
+    restart: always
+    container_name: db
+    ports:
+      - 15432:5432
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=whatsapp_api_db
+      - POSTGRES_PASSWORD=nE5kMc7JCGNqwDQM
