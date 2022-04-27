@@ -1,7 +1,7 @@
 # Coding Assesment  - XCaleConsulting
 
-## Pre-requisitos:
-###	-IntelliJ o otro IDE similar.
+## Prerrequisitos:
+###	-IntelliJ u otro IDE similar.
 ###	-Docker Desktop
 ###	-Bash
 ###	-Postman (Desktop agent instalado)
@@ -11,23 +11,23 @@
 ## Consideraciones:
 
 ### Usuarios:
-#### - Los usuarios se registran usando su numero de telefono.
-#### - No pueden existir numeros de telefono duplicados.
+#### - Los usuarios se registran usando su número de teléfono.
+#### - No pueden existir números de teléfono duplicados.
 
 
 ### Grupos:
 #### - Para crear un grupo se debe asignar al menos un nombre y los usuarios que lo integraran.
-#### - Los usuarios que no esten registrados antes, no seran agregados al grupo.
-#### - En caso de no pasar lista de Admins, se asignara solo al creador del grupo.
-#### - Solo los admins pueden actualizar los datos del grupo (nombre, lista de admins, lista de participantes).
+#### - Los usuarios que no estén registrados antes, no serán agregados al grupo.
+#### - En caso de no pasar lista de Admins, se asignará solo al creador del grupo.
+#### - Únicamente los admins pueden actualizar los datos del grupo (nombre, lista de admins, lista de participantes).
 
 
 ### Mensajes:
-#### - Solo pueden enviar mensajes a un grupo los usuarios registrados y que forman parte de dicho grupo.
+#### - Solo pueden enviar mensajes a un grupo, los usuarios registrados y que forman parte de dicho grupo.
 
 
 
-## Referencias / Archivos utiles (.\Miguel-Coronel\Refs):
+## Referencias / Archivos útiles (.\Miguel-Coronel\Refs):
 
 ### 	- Diagrama UML (UML Diagram.jpg)
 ### 	- Postman Template file (whatsapp-api.postman_collection.json)
@@ -44,25 +44,31 @@
 #### 3. Ir al directorio docker (.\whatsapp-group-api\src\main\java\com\example\whatsappgroupapi\docker) y correr el siguiente comando:
 ####		`docker-compose up -d`
 
-####		Este ultimo comando Iniciara dos Containers:
+####		Este último comando Iniciara dos Containers:
 ####			-Posqresql
 ####			-RabbitMQ
 
-#### 4. Para abrir el management de RabbitMQ, abrir el siguiente url en un explorardor (http://localhost:15672/) y nos logueamos con el usuario `guest` y contraseña `guest`.
+#### 4. Para abrir el management de RabbitMQ, abrir el siguiente url en un explorador (http://localhost:15672/) y entramos con el usuario `guest` y contraseña `guest`.
 
-#### 5. Volvemos a IntelliJ y corremos el siguiente comando para iniciar el proyecto:
+#### 5. Para correr las pruebas unitarias, correr el comando:
+####		`mvn test`
+
+#### 6. Volvemos a IntelliJ y corremos el siguiente comando para iniciar el proyecto:
 ####		`mvn clean spring-boot:run`
 
-#### 6. Despues de iniciado el proyecto, debemos ir a Postman para iniciar las interacciones con la API.
+#### 7. Después de iniciado el proyecto, debemos ir a Postman para iniciar las interacciones con la API.
 
-#### 7. Aca podemos importar el Postman template file, donde tendremos ya configuradas todas las llamadas que necesitamos hacer a la API
+#### 8. Acá podemos importar el Postman template file, donde tendremos ya configuradas todas las llamadas que necesitamos hacer a la API.
+
+#### 9. Estamos listos para probar la API usando Postman o similares.
 
 
 
 ## Para Mejorar:
 
-#### - API documentation.
+#### - API documentación.
 #### - Autenticación de usuario al registrar por SMS.
 #### - Implementar los campos "entregado" y "visto" en los mensajes.
-#### - Envio de multimedia en los mensajes.
-#### - Limite en el numero de usuarios por grupo.
+#### - Agregar mas test unitarios.
+#### - Envío de multimedia en los mensajes.
+#### - Límite en el número de usuarios por grupo.
